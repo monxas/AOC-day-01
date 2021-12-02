@@ -1,8 +1,10 @@
 const fetch = require('node-fetch');	//npm install node-fetch
-
+const test = false;
 // fetch the data from the API
 async function getData() {
-    const response = await fetch('https://github.com/monxas/AOC-day-01/raw/develop/AOC-02/data.txt');
+    url = 'https://github.com/monxas/AOC-day-01/raw/develop/AOC-02/data.txt';
+    url_test = 'https://github.com/monxas/AOC-day-01/raw/develop/AOC-02/data-test.txt';
+    const response = await fetch(test ? url_test : url);
     const body = await response.text();
     // array of lines linebreak
     const lines = body.split('\n');
@@ -44,7 +46,7 @@ function secondPart(lines) {
         switch (rule[0]) {
             case 'forward':
                 forward += +rule[1];
-                depth = aim * +rule[1];
+                depth = depth + aim * +rule[1];
                 break;
             case 'up':
                 aim -= +rule[1];
@@ -53,6 +55,8 @@ function secondPart(lines) {
                 aim += +rule[1];
                 break;
         }
+    console.log(`depth: ${depth}, forward: ${forward}, aim: ${aim}`);
+
     });
     console.log(`depth: ${depth}, forward: ${forward}, result: ${depth * forward}`);
 
