@@ -8,41 +8,29 @@ async function getData() {
     const lines = body.split('\n');
 
     firstPart(lines);
-    secondPart(lines);
+    // secondPart(lines);
 };
-
-
-// get price of bitcoin on coingecko api in usd
-async function getPrice() {
-    const response = await fetch('https://api.coingecko.com/api/v3/coins/bitcoin');
-    const body = await response.json();
-    console.log(body.market_data.current_price.usd);
-};
-
-// function to know if number is even
-function isEven(num) {
-    return num % 2 == 0;
-}
-
-
-
-
-
-
-
-
-
 
 function firstPart(lines) {
-    let increased = 0;
-    let decreased = 0;
-    let lastValue = +lines[0];
-    lines.forEach(val => {
-        +val > lastValue ? increased++ : decreased++;
-        lastValue = +val;
+    
+    let depth = 0;
+    let forward = 0;
+
+    lines.forEach(line => {
+        let rule = line.split(' ');
+        switch (rule[0]) {
+            case 'forward':
+                forward += +rule[1];
+                break;
+            case 'up':
+                depth -= +rule[1];
+                break;
+            case 'down':
+                depth += +rule[1];
+                break;
+        }
     });
-    console.log(`increased: ${increased} 🎉 `); 
-    // console.log(`decreased: ${decreased}`);
+    console.log(`depth: ${depth}, forward: ${forward}`);
 }
 
 function secondPart(lines) {
