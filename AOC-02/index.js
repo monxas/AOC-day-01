@@ -2,13 +2,13 @@ const fetch = require('node-fetch');	//npm install node-fetch
 
 // fetch the data from the API
 async function getData() {
-    const response = await fetch('https://raw.githubusercontent.com/monxas/AOC-day-01/develop/data.txt');
+    const response = await fetch('https://github.com/monxas/AOC-day-01/raw/develop/AOC-02/data.txt');
     const body = await response.text();
     // array of lines linebreak
     const lines = body.split('\n');
 
     firstPart(lines);
-    // secondPart(lines);
+    secondPart(lines);
 };
 
 function firstPart(lines) {
@@ -30,23 +30,31 @@ function firstPart(lines) {
                 break;
         }
     });
-    console.log(`depth: ${depth}, forward: ${forward}`);
+    console.log(`depth: ${depth}, forward: ${forward}, result: ${depth * forward}`);
 }
 
 function secondPart(lines) {
-    let increased = 0;
-    let decreased = 0;
-    let lastValue = +lines[0]+lines[1]+lines[2];
-    const lastIndex = lines.length - 1;
+     
+    let aim = 0;
+    let forward = 0;
+    let depth = 0;
 
-    lines.forEach((val, i) => {
-        if (i+2 <= lastIndex) {
-            let currentValue = +lines[i] + +lines[i+1] + +lines[i+2];
-            currentValue > lastValue ? increased++ : decreased++;
-            lastValue = currentValue;
+    lines.forEach(line => {
+        let rule = line.split(' ');
+        switch (rule[0]) {
+            case 'forward':
+                forward += +rule[1];
+                depth = aim * +rule[1];
+                break;
+            case 'up':
+                aim -= +rule[1];
+                break;
+            case 'down':
+                aim += +rule[1];
+                break;
         }
     });
-    console.log(`increased: ${increased} 🎉 `); 
-    // console.log(`decreased: ${decreased}`);
+    console.log(`depth: ${depth}, forward: ${forward}, result: ${depth * forward}`);
+
 }
 getData();

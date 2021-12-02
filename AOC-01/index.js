@@ -2,7 +2,7 @@ const fetch = require('node-fetch');	//npm install node-fetch
 
 // fetch the data from the API
 async function getData() {
-    const response = await fetch('https://raw.githubusercontent.com/monxas/AOC-day-01/develop/data.txt');
+    const response = await fetch('https://github.com/monxas/AOC-day-01/raw/develop/AOC-01/data.txt');
     const body = await response.text();
     // array of lines linebreak
     const lines = body.split('\n');
